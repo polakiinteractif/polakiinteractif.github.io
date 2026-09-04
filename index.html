@@ -59,6 +59,8 @@
   }
   .brand{font-size:1.15rem;font-weight:700;}
   .brand span{color:var(--amber);}
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand img{height:32px;width:auto;display:block;}
   .navlinks{display:flex;gap:30px;align-items:center;font-size:0.94rem;}
   .navlinks a{color:var(--paper-dim);transition:color .15s;}
   .navlinks a:hover{color:var(--paper);}
@@ -235,7 +237,10 @@
 
 <header class="site">
   <nav class="wrap">
-    <a class="brand" href="#hero">Polaki<span>.</span></a>
+    <a class="brand" href="#hero">
+  <img src="assets/img/logo.png" alt="Polaki Interactif">
+  Polaki<span>.</span>
+</a>
     <button class="navtoggle" aria-label="Menu" onclick="document.getElementById('navlinks').classList.toggle('open')">☰</button>
     <div class="navlinks" id="navlinks">
       <a href="#services" data-i18n="nav_services">Ce dont vous avez besoin</a>
