@@ -1,507 +1,664 @@
-<!DOCTYPE html>
-<html lang="en">
-
+<!doctype html>
+<html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Polaki Interactif</title>
-  <meta name="description" content="">
-  <meta name="keywords" content="">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-i18n="doc_title">Polaki Interactif — Expériences interactives, de l'idée au déploiement</title>
+<meta name="description" content="Installations interactives, réalité augmentée et objets connectés pour institutions, musées et événements. Polaki Interactif, Simon St-Hilaire.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-deep:#121D33;
+    --navy:#16233B;
+    --navy-panel:#1E2F4D;
+    --navy-panel-2:#25395C;
+    --paper:#F3EEE2;
+    --paper-dim:#A9B3C4;
+    --amber:#F0A83C;
+    --amber-bright:#FFC168;
+    --trace-green:#6FCB9F;
+    --line:rgba(243,238,226,0.14);
+    --radius:3px;
+    --max:1180px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--navy);
+    color:var(--paper);
+    font-family:'Inter',sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{
+    font-family:'Space Grotesk',sans-serif;
+    margin:0;
+    font-weight:600;
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 32px;}
+  .mono{font-family:'IBM Plex Mono',monospace;font-size:0.72rem;letter-spacing:0.02em;}
+  @media(max-width:640px){.wrap{padding:0 20px;}}
 
-  <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  /* ---------- NAV ---------- */
+  header.site{
+    position:sticky;top:0;z-index:50;
+    background:rgba(18,29,51,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  nav.wrap{
+    display:flex;align-items:center;justify-content:space-between;
+    height:76px;
+  }
+  .brand{font-size:1.15rem;font-weight:700;}
+  .brand span{color:var(--amber);}
+  .navlinks{display:flex;gap:30px;align-items:center;font-size:0.94rem;}
+  .navlinks a{color:var(--paper-dim);transition:color .15s;}
+  .navlinks a:hover{color:var(--paper);}
+  .navlinks .lang{border:1px solid var(--line);padding:6px 12px;border-radius:var(--radius);color:var(--paper);
+    background:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:0.9rem;}
+  .navlinks .lang:hover{border-color:var(--amber);color:var(--amber);}
+  .navtoggle{display:none;background:none;border:0;color:var(--paper);font-size:1.6rem;cursor:pointer;}
+  @media(max-width:860px){
+    .navlinks{
+      position:absolute;top:76px;left:0;right:0;
+      background:var(--navy-deep);
+      flex-direction:column;align-items:flex-start;
+      padding:20px 20px 28px;
+      display:none;
+      border-bottom:1px solid var(--line);
+    }
+    .navlinks.open{display:flex;}
+    .navtoggle{display:block;}
+  }
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com" rel="preconnect">
-  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  /* ---------- HERO ---------- */
+  .hero{padding:96px 0 88px;}
+  .hero .wrap{display:grid;grid-template-columns:1.1fr 0.9fr;gap:64px;align-items:center;}
+  @media(max-width:900px){.hero .wrap{grid-template-columns:1fr;gap:56px;}.hero{padding:56px 0 64px;}}
+  .eyebrow-line{
+    display:flex;align-items:center;gap:10px;
+    color:var(--trace-green);font-size:0.9rem;margin-bottom:22px;
+  }
+  .eyebrow-line .dot{width:7px;height:7px;border-radius:50%;background:var(--trace-green);
+    box-shadow:0 0 6px var(--trace-green);}
+  .hero h1{font-size:clamp(2.1rem,4.4vw,3.4rem);line-height:1.12;max-width:16ch;}
+  .hero p.lede{color:var(--paper-dim);font-size:1.13rem;max-width:46ch;margin-top:22px;}
+  .hero .actions{margin-top:34px;display:flex;gap:16px;flex-wrap:wrap;}
+  .btn{
+    display:inline-block;padding:14px 26px;border-radius:var(--radius);
+    font-weight:600;font-size:0.95rem;cursor:pointer;border:1px solid transparent;
+    transition:transform .12s ease, background .15s ease, border-color .15s ease;
+  }
+  .btn:active{transform:translateY(1px);}
+  .btn-amber{background:var(--amber);color:var(--navy-deep);}
+  .btn-amber:hover{background:var(--amber-bright);}
+  .btn-ghost{border-color:var(--line);color:var(--paper);}
+  .btn-ghost:hover{border-color:var(--paper-dim);}
 
-  <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  /* control panel visual */
+  .panel{
+    background:var(--navy-panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:30px;
+    display:grid;grid-template-columns:1fr 1fr;gap:18px;
+  }
+  .panel .switch{
+    background:var(--navy-deep);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:20px 16px;
+    text-align:left;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .panel .switch:hover{border-color:var(--amber);background:#182642;}
+  .panel .switch .led{
+    width:10px;height:10px;border-radius:50%;
+    background:var(--amber);margin-bottom:14px;
+    box-shadow:0 0 8px var(--amber);
+  }
+  .panel .switch .label{font-family:'Space Grotesk',sans-serif;font-size:0.92rem;font-weight:600;line-height:1.3;}
+  .panel .switch .tag{display:block;margin-top:8px;color:var(--paper-dim);font-size:0.76rem;}
 
-  <!-- Main CSS File -->
-  <link href="assets/css/main.css" rel="stylesheet">
+  /* ---------- SECTION HEAD ---------- */
+  .section{padding:96px 0;}
+  .section-alt{background:var(--navy-deep);}
+  .section-head{max-width:640px;margin-bottom:56px;}
+  .section-head h2{font-size:clamp(1.7rem,3vw,2.3rem);}
+  .section-head p{color:var(--paper-dim);margin-top:14px;font-size:1.05rem;}
 
-  <!-- =======================================================
-  * Template Name: DevFolio
-  * Template URL: https://bootstrapmade.com/devfolio-bootstrap-portfolio-html-template/
-  * Updated: Aug 07 2024 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+  /* ---------- SERVICES ---------- */
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);
+    border:1px solid var(--line);border-radius:8px;overflow:hidden;}
+  @media(max-width:760px){.cards{grid-template-columns:1fr;}}
+  .card{background:var(--navy-panel);padding:40px;}
+  .card .icon{width:34px;height:34px;margin-bottom:22px;color:var(--amber);}
+  .card h3{font-size:1.2rem;line-height:1.35;margin-bottom:14px;}
+  .card p{color:var(--paper-dim);font-size:0.98rem;}
+  .card .cta{
+    display:inline-flex;align-items:center;gap:8px;margin-top:22px;
+    color:var(--trace-green);font-weight:600;font-size:0.92rem;
+  }
+  .card .cta:hover{color:var(--amber-bright);}
+
+  .secondary-row{
+    margin-top:44px;display:flex;gap:14px;flex-wrap:wrap;
+    align-items:center;
+  }
+  .secondary-row .lead{color:var(--paper-dim);font-size:0.95rem;margin-right:8px;}
+  .pill{
+    border:1px solid var(--line);border-radius:999px;padding:9px 18px;
+    font-size:0.88rem;color:var(--paper);
+  }
+  .pill:hover{border-color:var(--trace-green);color:var(--trace-green);}
+
+  /* ---------- PORTFOLIO ---------- */
+  .filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px;}
+  .filter{
+    background:none;border:1px solid var(--line);color:var(--paper-dim);
+    padding:8px 16px;border-radius:999px;font-size:0.86rem;cursor:pointer;
+    font-family:'Inter',sans-serif;
+  }
+  .filter.active{border-color:var(--amber);color:var(--amber);}
+  .plaques{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+  @media(max-width:920px){.plaques{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:640px){.plaques{grid-template-columns:1fr;}}
+  .plaque{border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--navy-panel);}
+  .plaque .thumb{aspect-ratio:4/3;overflow:hidden;background:#0e1626;}
+  .plaque .thumb img{width:100%;height:100%;object-fit:cover;}
+  .plaque .plate{padding:18px 20px 22px;border-top:2px solid var(--amber);}
+  .plaque .plate h4{font-size:1.02rem;margin-bottom:8px;}
+  .plaque .plate p{color:var(--paper-dim);font-size:0.87rem;margin:0;}
+  .plaque .plate .client{
+    display:block;margin-top:12px;color:var(--trace-green);font-size:0.78rem;
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{display:grid;grid-template-columns:0.85fr 1.15fr;gap:64px;align-items:start;}
+  @media(max-width:860px){.about-grid{grid-template-columns:1fr;gap:40px;}}
+  .about-photo{border-radius:6px;overflow:hidden;border:1px solid var(--line);}
+  .founded{margin-top:20px;color:var(--paper-dim);font-size:0.9rem;}
+  .founded a{color:var(--paper);}
+  .about-body p{color:var(--paper-dim);font-size:1.03rem;max-width:56ch;}
+  .about-body a{color:var(--amber);}
+  .skills{margin-top:36px;display:flex;flex-direction:column;gap:16px;}
+  .skill .row{display:flex;justify-content:space-between;gap:20px;font-size:0.88rem;margin-bottom:6px;}
+  .skill .track{height:5px;background:var(--navy-panel-2);border-radius:3px;overflow:hidden;}
+  .skill .fill{height:100%;background:var(--amber);}
+
+  /* ---------- TESTIMONIALS ---------- */
+  .testimonial-carousel{position:relative;max-width:720px;}
+  .testimonial-viewport{overflow:hidden;}
+  .testimonial-track{display:flex;transition:transform .6s cubic-bezier(.65,0,.35,1);}
+  .tcard{
+    flex:0 0 100%;
+    background:var(--navy-panel);border:1px solid var(--line);border-radius:6px;
+    padding:34px;display:flex;flex-direction:column;gap:20px;min-height:220px;
+  }
+  .tcard p.quote{font-size:1.06rem;color:var(--paper);line-height:1.65;}
+  .tcard .who{display:flex;align-items:center;gap:14px;margin-top:auto;}
+  .tcard .who img{width:46px;height:46px;border-radius:50%;object-fit:cover;border:1px solid var(--line);}
+  .tcard .who .name{font-weight:600;font-size:0.94rem;}
+  .tcard .who .role{color:var(--paper-dim);font-size:0.82rem;}
+  .t-controls{display:flex;align-items:center;gap:18px;margin-top:28px;}
+  .t-dots{display:flex;gap:9px;}
+  .t-dot{width:8px;height:8px;border-radius:50%;background:var(--navy-panel-2);border:none;cursor:pointer;padding:0;}
+  .t-dot.active{background:var(--amber);}
+  .t-arrow{background:none;border:1px solid var(--line);color:var(--paper-dim);
+    width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:1rem;line-height:1;}
+  .t-arrow:hover{border-color:var(--paper-dim);color:var(--paper);}
+
+  /* ---------- CONTACT ---------- */
+  .contact-box{
+    background:var(--navy-panel);border:1px solid var(--line);border-radius:8px;
+    padding:56px;display:flex;justify-content:space-between;align-items:center;gap:40px;flex-wrap:wrap;
+  }
+  .contact-box h2{font-size:1.7rem;max-width:16ch;}
+  .contact-box p{color:var(--paper-dim);margin-top:12px;max-width:40ch;}
+
+  footer{padding:36px 0;border-top:1px solid var(--line);}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+  footer .foot-links{display:flex;gap:18px;color:var(--paper-dim);font-size:0.85rem;}
+  footer .foot-links a:hover{color:var(--paper);}
+</style>
 </head>
+<body>
 
-<body class="index-page">
-  <script type="text/javascript">
-  </script>
-
-  <header id="header" class="header d-flex align-items-center sticky-top">
-    <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
-
-      <a href="index.html" class="logo d-flex align-items-center">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <img src="assets/img/logo.png" alt="">
-        <h1 class="sitename">Polaki</h1>
-      </a>
-
-      <nav id="navmenu" class="navmenu">
-        <ul>
-          <li><a href="#hero" class="active">Accueil<br></a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#portfolio">Portfolio</a></li>
-          <li><a href="#about">À propos</a></li>
-          <li><a href="#contact">Contact</a></li>
-          <li><a href="https://polakiinteractif.ca/en/"  title="'Sup M-A!">English</a></li>
-        </ul>
-        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-      </nav>
-
+<header class="site">
+  <nav class="wrap">
+    <a class="brand" href="#hero">Polaki<span>.</span></a>
+    <button class="navtoggle" aria-label="Menu" onclick="document.getElementById('navlinks').classList.toggle('open')">☰</button>
+    <div class="navlinks" id="navlinks">
+      <a href="#services" data-i18n="nav_services">Ce dont vous avez besoin</a>
+      <a href="#portfolio" data-i18n="nav_portfolio">Portfolio</a>
+      <a href="#about" data-i18n="nav_about">À propos</a>
+      <a href="#temoignages" data-i18n="nav_testimonials">Témoignages</a>
+      <a href="#contact" data-i18n="nav_contact">Contact</a>
+      <button class="lang" id="langToggle">EN</button>
     </div>
-  </header>
+  </nav>
+</header>
 
-  <main class="main">
-
-    <!-- Hero Section -->
-    <section id="hero" class="hero section dark-background">
-
-      <img src="assets/img/hero-img.jpg" alt="" data-aos="fade-in">
-
-      <div class="container d-flex flex-column align-items-center justify-content-center text-center" data-aos="fade-up" data-aos-delay="100">
-        <h2>Polaki Interactif</h2>
-        <p><span class="typed" data-typed-items="Développement, Formation, Accompagnement technologique"></span></p>
-        <br>Expériences interactives - de l'idée au déploiement
+<section class="hero" id="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow-line"><span class="dot"></span><span data-i18n="hero_eyebrow">Basé à Québec, QC</span></div>
+      <h1 data-i18n="hero_h1">Des expériences qu'on active, qu'on touche, dont on se souvient.</h1>
+      <p class="lede" data-i18n="hero_lede">Installations interactives, réalité augmentée et objets connectés, conçus et développés pour des institutions, musées et événements.</p>
+      <div class="actions">
+        <a class="btn btn-amber" href="#services" data-i18n="hero_cta1">Trouvez votre point de départ</a>
+        <a class="btn btn-ghost" href="#portfolio" data-i18n="hero_cta2">Voir les réalisations</a>
       </div>
+    </div>
+    <div class="panel" aria-hidden="true">
+      <a class="switch" href="#s1"><span class="led"></span><span class="label" data-i18n="panel_s1_label">Nous avons une idée</span><span class="tag" data-i18n="panel_s1_tag">cadrage</span></a>
+      <a class="switch" href="#s2"><span class="led"></span><span class="label" data-i18n="panel_s2_label">Il faut la concevoir</span><span class="tag" data-i18n="panel_s2_tag">design d'expérience</span></a>
+      <a class="switch" href="#s3"><span class="led"></span><span class="label" data-i18n="panel_s3_label">Il faut la bâtir</span><span class="tag" data-i18n="panel_s3_tag">développement</span></a>
+      <a class="switch" href="#s4"><span class="led"></span><span class="label" data-i18n="panel_s4_label">Il faut l'ancrer au réel</span><span class="tag" data-i18n="panel_s4_tag">intégration physique</span></a>
+    </div>
+  </div>
+</section>
 
-    </section><!-- /Hero Section -->
+<section class="section" id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 data-i18n="services_h2">Où en êtes-vous?</h2>
+      <p data-i18n="services_p">Quatre points de départ, selon où en est votre projet. Trouvez le vôtre.</p>
+    </div>
 
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="portfolio section">
-
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Portfolio</h2>
-        <p>Quelques réalisations</p>
-      </div><!-- End Section Title -->
-
-      <div class="container">
-
-        <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
-
-          <ul class="portfolio-filters isotope-filters" data-aos="fade-up" data-aos-delay="100">
-            <li data-filter="*" class="filter-active">Tous</li>
-            <li data-filter=".filter-augmented">Expériences augmentées</li>
-            <li data-filter=".filter-interactive">Interactivité</li>
-            <li data-filter=".filter-install">Installations</li>
-
-          </ul><!-- End Portfolio Filters -->
-
-          <div class="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="200">
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-augmented">
-              <img src="assets/img/portfolio/app-1.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>D.E.S.A.</h4>
-                <p>Dispositif d'Expérience Sonore Augmentée développé au MCQ pour l'exposition "Sur Parole. Le son du rap queb." @ Musée de la civilisation, photographe: François Ozan - Icône</p>
-                <a href="assets/img/portfolio/app-1.jpg" title="D.E.S.A. @ Musée de la civilisation, photographe: François Ozan - Icône" data-gallery="portfolio-gallery-app" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                <a href="https://mcq.org/espace-professionnel/incubateur/initiatives/parcours-sonore-immersif/" title="Plus de détails" class="details-link" target="_blank"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-augmented">
-              <img src="assets/img/portfolio/app-2.png" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Le monde d'Équoo</h4>
-                <p>Expérience de réalité augmentée visant à diminuer le stress des enfants avant une visite au bloc opératoire @ CHU de Québec/Fondation du CHU de Québec</p>
-                <a href="assets/img/portfolio/app-2.png" title="Le monde d'Équoo" data-gallery="portfolio-gallery-app" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                <a href="https://fondationduchudequebec.org/2023/11/10/du-reconfort-par-la-realite-augmentee/" title="Plus de détails" class="details-link" target="_blank"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-interactive">
-              <img src="assets/img/portfolio/product-1.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Mur à dessin</h4>
-                <p>Les enfants peuvent dessiner avec de la lumière sur les murs du grenier de l'exposition "Ma maison" @ Musée de la civilisation, photographe: Marie-Josée Marcotte – Icône</p>
-                <a href="assets/img/portfolio/product-1.jpg" title="Mur à dessin @ Musée de la civilisation, photographe: Marie-Josée Marcotte – Icône" data-gallery="portfolio-gallery-product" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                <a href="https://mcq.org/decouvrir/expositions/ma-maison/" title="Plus de détails" class="details-link" target="_blank"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-install">
-              <img src="assets/img/portfolio/installation-1.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Photomaton (morphing)</h4>
-                <p>Prenez la pose recevez votre portrait de famille métamorphosé en personnages de "Ma maison" @ Musée de la civilisation</p>
-                <a href="assets/img/portfolio/installation-1-2.jpg" title="Photomaton (morphing)" data-gallery="portfolio-gallery-branding" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                <a href="https://mcq.org/decouvrir/expositions/ma-maison/" title="Plus de détails" class="details-link" target="_blank"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-interactive">
-              <img src="assets/img/portfolio/product-2.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Zone Pixel</h4>
-                <p>Zone interactive du Palais de Bonhomme @ Matièrs/Carnaval de Québec 2020</p>
-                <a href="assets/img/portfolio/product-2-2.jpg" title="Zone Pixel" data-gallery="portfolio-gallery-product" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                <a href="https://matiers.ca/pixel/" title="Plus de détails" class="details-link" target="_blank"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-install">
-              <img src="assets/img/portfolio/installation-2.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Chasse au trésor TD</h4>
-                <p>Bornes de validation animées @ Fêtes de la nouvelle France</p>
-                <a href="assets/img/portfolio/installation-2.jpg" title="Chasse au trésor TD" data-gallery="portfolio-gallery-branding" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                <a href="https://nouvellefrance.qc.ca/sites/chasse-au-tresor-td" title="Plus de détails" class="details-link" target="_blank"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-interactive">
-              <img src="assets/img/portfolio/product-3.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Visites virtuelles</h4>
-                <p>Application de réalité virtuelle permettant de visualiser des vidéos 360 immersives @ AtlasVR</p>
-                <a href="assets/img/portfolio/product-3.jpg" title="Visites virtuelles 360 immersives" data-gallery="portfolio-gallery-product" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                <a href="https://fx-dx.com/" title="Plus de détails" class="details-link" target="_blank"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-install">
-              <img src="assets/img/portfolio/installation-3-1.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Fresque des saisons</h4>
-                <p>Projection 360 qui met en scène le cycle des saisons dans "Le Québec autrement dit" @ Musée de la civilisation, photographe: Marie-Josée Marcotte – Icône</p>
-                <a href="assets/img/portfolio/installation-3-2.jpg" title="Fresque des saisons - Le Québec autrement dit @ Musée de la civilisation, photographe: Marie-Josée Marcotte – Icône" data-gallery="portfolio-gallery-branding" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                <a href="https://mcq.org/decouvrir/expositions/le-quebec-autrement-dit/" title="Plus de détails" class="details-link" target="_blank"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-interactive">
-              <img src="assets/img/portfolio/product-4.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Explosion de jouets</h4>
-                <p>Jeu de détection de mouvement: les joueurs incarne des lutins qui doivent attraper les cadeaux qui s'envolent de l'atelier du Père-Noël @ Village Du Père Noël</p>
-                <a href="assets/img/portfolio/product-4.jpg" title="Explosion de jouets @ Village Du Père Noël" data-gallery="portfolio-gallery-product" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                <a href="https://villageduperenoel.ca/" title="Plus de détails" class="details-link" target="_blank"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-install">
-              <img src="assets/img/portfolio/installation-5-1.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Mini-jumbotron LNH</h4>
-                <p>Jumbotron WiFi qui affiche en direct le pointage de votre équipe de la LNH préférée @ Les fans du CH</p>
-                <a href="assets/img/portfolio/installation-5-2.jpg" title="Affichage de la période en cours et effets sonores sur les buts" data-gallery="portfolio-gallery-branding" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                <a href="https://www.instructables.com/Panneau-Daffichage-LNH-Temps-R%C3%A9el/" title="Plus de détails" class="details-link" target="_blank"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-          </div><!-- End Portfolio Container -->
-
-          <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-install">
-              <img src="assets/img/portfolio/installation-6-1.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Le défilé inversé</h4>
-                <p>Détection de mouvement interprétée dans le style d'artistes québécois @ Matièrs/Fête nationale du Québec 2021 - Quartier des spectacles de Montréal</p>
-                <a href="assets/img/portfolio/installation-6-2.jpg" title="Une station avec projection géante, dans le style d'Alfred Pellan" data-gallery="portfolio-gallery-branding" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                <a href="https://matiers.ca/le-defile-inverse/" title="Plus de détails" class="details-link" target="_blank"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div><!-- End Portfolio Item -->
-
-          </div><!-- End Portfolio Container -->
-
-        </div>
-
+    <div class="cards">
+      <div class="card" id="s1">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.6.6 1 1.4 1 2.5h6c0-1.1.4-1.9 1-2.5A6 6 0 0 0 12 3z"/></svg>
+        <h3 data-i18n="s1_h3">« Nous avons une idée, mais on ne sait pas par où commencer. »</h3>
+        <p data-i18n="s1_p">Avant d'investir dans une techno ou un partenaire, on en parle. Je vous aide à poser les bonnes questions, cadrer le projet et éviter les mauvais choix — avant que le budget parte dans la mauvaise direction.</p>
+        <a class="cta" href="#contact" data-i18n="s1_cta">Appelez-moi</a>
       </div>
-
-    </section><!-- /Portfolio Section -->
-
-    <!-- Services Section -->
-    <section id="services" class="services section">
-
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Services</h2>
-        <p>Comment puis-je vous aider?</p>
-      </div><!-- End Section Title -->
-
-      <div class="container">
-
-        <div class="row gy-4">
-
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-            <div class="service-item  position-relative">
-              <div class="icon">
-                <i class="bi bi-skip-end-btn-fill"></i>
-              </div>
-              <a href="#portfolio" class="stretched-link">
-                <h3>Accompagnement</h3>
-              </a>
-              <p>Avant d'investir dans une techno ou un partenaire, parlez-moi. Je vous aide à poser les bonnes questions, à éviter les mauvais choix et à cadrer votre projet dès le départ.</p>
-            </div>
-          </div><!-- End Service Item -->
-
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
-            <div class="service-item position-relative">
-              <div class="icon">
-                <i class="bi bi-chat-square-text"></i>
-              </div>
-              <a href="#portfolio" class="stretched-link">
-                <h3>Formation</h3>
-              </a>
-              <p>Votre équipe doit monter en compétences sur une techno précise? Je donne des formations sur mesure: Unity, RA, objets connectés, selon ce dont vous avez besoin.</p>
-            </div>
-          </div><!-- End Service Item -->
-
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-            <div class="service-item position-relative">
-              <div class="icon">
-                <i class="bi bi-robot"></i>
-              </div>
-              <a href="#portfolio" class="stretched-link">
-                <h3>R & D</h3>
-              </a>
-              <p>Votre idée existe-t-elle déjà? Est-ce faisable avec votre budget? Je construis un prototype fonctionnel pour le savoir avant que vous investissiez vraiment.</p>
-            </div>
-          </div><!-- End Service Item -->
-
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-            <div class="service-item position-relative">
-              <div class="icon">
-                <i class="bi bi-qr-code-scan"></i>
-              </div>
-              <a href="#portfolio" class="stretched-link">
-                <h3>Programmation</h3>
-              </a>
-              <p>Développement sur mesure: C++, C#, Python, embarqué et plus. Pas de sur-ingénierie, pas de dépendances inutiles.</p>
-            </div>
-          </div><!-- End Service Item -->
-
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
-            <div class="service-item position-relative">
-              <div class="icon">
-                <i class="bi bi-calendar4-week"></i>
-              </div>
-              <a href="#portfolio" class="stretched-link">
-                <h3>Consultation</h3>
-              </a>
-              <p>Un problème précis, une question technique, un deuxième regard sur un devis — facturé à l'heure, sans engagement.</p>
-            </div>
-          </div><!-- End Service Item -->
-
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
-            <div class="service-item position-relative">
-              <div class="icon">
-                <i class="bi bi-bounding-box-circles"></i>
-              </div>
-              <a href="#portfolio" class="stretched-link">
-                <h3>Physique + numérique</h3>
-              </a>
-              <p>Capteurs, microcontrôleurs, projections, détection de mouvement — je connecte le monde physique au numérique de façon invisible et robuste.</p>
-            </div>
-          </div><!-- End Service Item -->
-
-        </div>
-
+      <div class="card" id="s2">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20l4.5-1.5L20 7c.8-.8.8-2 0-2.8s-2-.8-2.8 0L6 15.7 4.5 20z"/></svg>
+        <h3 data-i18n="s2_h3">« Nous avons besoin d'aide pour concevoir notre interactif. »</h3>
+        <p data-i18n="s2_p">C'est ma plus grande force : imaginer l'expérience elle-même — comment les gens vont interagir, ce qu'ils vont ressentir, ce qui va les surprendre — avant même de penser à la technologie qui va la porter.</p>
+        <a class="cta" href="#contact" data-i18n="s2_cta">Concevons votre expérience</a>
       </div>
-
-    </section><!-- /Services Section -->
-
-     <!-- About Section -->
-    <section id="about" class="about section">
-
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="row gy-4">
-          <div class="col-md-6">
-
-            <div class="row justify-content-between gy-4">
-              <div class="col-lg-5">
-                <img src="assets/img/profile-img.jpg" class="img-fluid" alt="">
-              </div>
-              <div class="col-lg-7 about-info">
-                <p><strong>Fondé en </strong> <span>2018</span></p>
-                <p><strong>Par: </strong> <span><a href="https://www.linkedin.com/in/simonst-hilaire/">Simon St-Hilaire</a></span></p>
-              </div>
-            </div>
-
-            <div class="skills-content skills-animation">
-
-              <h5>Compétences</h5>
-
-              <div class="progress">
-                <span class="skill"><span>RV / RA / RM</span> <i class="val">99%</i></span>
-                <div class="progress-bar-wrap">
-                  <div class="progress-bar" role="progressbar" aria-valuenow="99" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-              </div><!-- End Skills Item -->
-
-               <div class="progress">
-                <span class="skill"><span>Game Engines ( Unity/Unreal/GODOT/Panda3D/...)</span> <i class="val">99%</i></span>
-                <div class="progress-bar-wrap">
-                  <div class="progress-bar" role="progressbar" aria-valuenow="99" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-              </div><!-- End Skills Item -->
-
-              <div class="progress">
-                <span class="skill"><span>Électronique et objets connectés</span> <i class="val">99%</i></span>
-                <div class="progress-bar-wrap">
-                  <div class="progress-bar" role="progressbar" aria-valuenow="99" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-              </div><!-- End Skills Item -->
-
-              <div class="progress">
-                <span class="skill"><span>Vulgarisation et compréhension des besoins</span> <i class="val">100%</i></span>
-                <div class="progress-bar-wrap">
-                  <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-              </div><!-- End Skills Item -->
-            </div>
-          </div>
-
-          <div class="col-md-6">
-            <div class="about-me">
-              <h4>À propos de Polaki</h4>
-              <p>
-                Je m'appelle Simon. Je construis des installations interactives, des expériences en réalité augmentée et des objets connectés — le genre de trucs que les gens touchent, regardent et dont ils se souviennent. Depuis 2018, j'ai livré des projets au Musée de la civilisation, au CHU de Québec et au Carnaval de Québec. Je travaille seul ou avec un réseau de collaborateurs selon la taille du projet.
-              </p>
-            </div>
-          </div>
-        </div>
-
+      <div class="card" id="s3">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 9l-4 4 4 4M16 9l4 4-4 4M14 4l-4 17"/></svg>
+        <h3 data-i18n="s3_h3">« Nous avons le concept, il nous manque le développement. »</h3>
+        <p data-i18n="s3_p">Vous avez déjà le design, le plan, la vision créative. Je prends en charge le développement et l'intégration : C++, C#, Python, embarqué — sans sur-ingénierie, sans dépendances inutiles.</p>
+        <a class="cta" href="#contact" data-i18n="s3_cta">Parlons développement</a>
       </div>
-
-    </section><!-- /About Section -->
-
-    <!-- Testimonials Section -->
-    <section id="testimonials" class="testimonials section accent-background">
-
-      <img src="assets/img/testimonials-bg.jpg" class="testimonials-bg" alt="">
-
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="swiper init-swiper">
-          <script type="application/json" class="swiper-config">
-            {
-              "loop": true,
-              "speed": 600,
-              "autoplay": {
-                "delay": 5000
-              },
-              "slidesPerView": "auto",
-              "pagination": {
-                "el": ".swiper-pagination",
-                "type": "bullets",
-                "clickable": true
-              }
-            }
-          </script>
-          <div class="swiper-wrapper">
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <img src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
-                <h3>Martin Thibodeau</h3>
-                <h4>CEO @ <a href="https://www.spherios.ca">Spherios</a></h4>
-                <div class="stars">
-                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                </div>
-                <p>
-                  <i class="bi bi-quote quote-icon-left"></i>
-                  <span>Simon est un visionnaire qui capte instantanément la valeur ajoutée d’une idée et mobilise des moyens accessibles pour la concrétiser. Un allié incontournable pour tout créateur!</span>
-                  <i class="bi bi-quote quote-icon-right"></i>
-                </p>
-              </div>
-            </div><!-- End testimonial item -->
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <img src="assets/img/testimonials/testimonials-anonymous1.png" class="testimonial-img" alt="">
-                <h3>Isa Mailloux</h3>
-                <h4>Chargée de projets numériques et technologiques @ <a href="https://www.mcq.org">MCQ</a></h4>
-                <div class="stars">
-                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                </div>
-                <p>
-                  <i class="bi bi-quote quote-icon-left"></i>
-                  <span>C’est toujours un plaisir de collaborer avec Simon dans le cadre de nos projets au Musée! Créatif, ultra débrouillard et toujours en mode solution, Simon est le genre de collaborateur qui transforme les défis en opportunités. Toujours à l’écoute de nos besoins et de ceux de nos visiteurs, il propose des solutions originales et robustes, et les concrétise avec rigueur et efficacité. Collaborer avec Simon, c’est non seulement efficace, mais franchement agréable. Une vraie force tranquille… avec une twist de génie-patenteux!</span>
-                  <i class="bi bi-quote quote-icon-right"></i>
-                </p>
-              </div>
-            </div><!-- End testimonial item -->
-
-          </div>
-          <div class="swiper-pagination"></div>
-        </div>
-
-      </div>
-
-    </section><!-- /Testimonials Section -->
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact section">
-
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Contactez-moi</h2>
-        <p><img src="assets/img/ph.png" width="128" /></p>
-        <p>Quel que soit votre besoin ou votre question, n'hésitez pas m'écrire sur <a href="https://linkedin.com/company/polaki-interactif/">LinkedIn</a>.</p>
-      </div><!-- End Section Title -->
-
-    </section><!-- /Contact Section -->
-
-  </main>
-
-  <footer id="footer" class="footer accent-background">
-
-    <div class="container">
-      <div class="copyright text-center ">
-        <p>© <span>Copyright</span> <strong class="px-1 sitename">DevFolio</strong> <span>All Rights Reserved</span></p>
-      </div>
-      <div class="social-links d-flex justify-content-center">
-        <!--<a href=""><i class="bi bi-twitter-x"></i></a> -->
-        <a href="https://www.facebook.com/profile.php?id=61570462811182"><i class="bi bi-facebook"></i></a>
-        <!--<a href=""><i class="bi bi-instagram"></i></a> -->
-        <a href="https://www.linkedin.com/in/simonst-hilaire/"><i class="bi bi-linkedin"></i></a>
-      </div>
-      <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you've purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      <div class="card" id="s4">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg>
+        <h3 data-i18n="s4_h3">« Notre expérience existe déjà, on veut y ajouter du physique. »</h3>
+        <p data-i18n="s4_p">Capteurs, microcontrôleurs, projections, détection de mouvement — je connecte votre expérience immersive au monde physique, de façon invisible et robuste.</p>
+        <a class="cta" href="#contact" data-i18n="s4_cta">Ajoutons de l'interactivité physique</a>
       </div>
     </div>
 
-  </footer>
+    <div class="secondary-row">
+      <span class="lead" data-i18n="secondary_lead">Besoin d'autre chose?</span>
+      <a class="pill" href="#contact" data-i18n="pill1">Formation sur mesure</a>
+      <a class="pill" href="#contact" data-i18n="pill2">Consultation ponctuelle</a>
+      <a class="pill" href="#contact" data-i18n="pill3">Prototype rapide</a>
+    </div>
+  </div>
+</section>
 
-  <!-- Scroll Top -->
-  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+<section class="section section-alt" id="portfolio">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 data-i18n="portfolio_h2">Quelques réalisations</h2>
+      <p data-i18n="portfolio_p">Des projets livrés au Musée de la civilisation, au CHU de Québec, au Carnaval de Québec et ailleurs.</p>
+    </div>
 
-  <!-- Preloader -->
-  <div id="preloader"></div>
+    <div class="filters">
+      <button class="filter active" data-f="tous" data-i18n="filter_tous">Tous</button>
+      <button class="filter" data-f="augmentee" data-i18n="filter_augmentee">Expériences augmentées</button>
+      <button class="filter" data-f="interactivite" data-i18n="filter_interactivite">Interactivité</button>
+      <button class="filter" data-f="installation" data-i18n="filter_installation">Installations</button>
+    </div>
 
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-  <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/typed.js/typed.umd.js"></script>
-  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
-  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
-  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <div class="plaques" id="plaques">
+      <div class="plaque" data-cat="interactivite">
+        <div class="thumb"><img src="assets/img/portfolio/app-1.jpg" data-i18n-alt="p1_title" alt="D.E.S.A."></div>
+        <div class="plate"><h4 data-i18n="p1_title">D.E.S.A.</h4><p data-i18n="p1_desc">Dispositif d'expérience sonore augmentée pour l'exposition « Sur parole. Le son du rap québ. »</p><span class="client" data-i18n="p1_client">Musée de la civilisation</span></div>
+      </div>
+      <div class="plaque" data-cat="augmentee">
+        <div class="thumb"><img src="assets/img/portfolio/app-2.png" data-i18n-alt="p2_title" alt="Le monde d'Équoo"></div>
+        <div class="plate"><h4 data-i18n="p2_title">Le monde d'Équoo</h4><p data-i18n="p2_desc">Expérience de réalité augmentée visant à diminuer le stress des enfants avant une visite au bloc opératoire.</p><span class="client" data-i18n="p2_client">CHU de Québec / Fondation du CHU de Québec</span></div>
+      </div>
+      <div class="plaque" data-cat="interactivite">
+        <div class="thumb"><img src="assets/img/portfolio/product-1.jpg" data-i18n-alt="p3_title" alt="Mur à dessin"></div>
+        <div class="plate"><h4 data-i18n="p3_title">Mur à dessin</h4><p data-i18n="p3_desc">Les enfants dessinent avec de la lumière sur les murs du grenier de l'exposition « Ma maison ».</p><span class="client" data-i18n="p3_client">Musée de la civilisation</span></div>
+      </div>
+      <div class="plaque" data-cat="installation">
+        <div class="thumb"><img src="assets/img/portfolio/installation-1.jpg" data-i18n-alt="p4_title" alt="Photomaton (morphing)"></div>
+        <div class="plate"><h4 data-i18n="p4_title">Photomaton (morphing)</h4><p data-i18n="p4_desc">Prenez la pose, recevez votre portrait de famille métamorphosé en personnages de « Ma maison ».</p><span class="client" data-i18n="p4_client">Musée de la civilisation</span></div>
+      </div>
+      <div class="plaque" data-cat="installation">
+        <div class="thumb"><img src="assets/img/portfolio/product-2.jpg" data-i18n-alt="p5_title" alt="Zone Pixel"></div>
+        <div class="plate"><h4 data-i18n="p5_title">Zone Pixel</h4><p data-i18n="p5_desc">Zone interactive du Palais de Bonhomme.</p><span class="client" data-i18n="p5_client">Matièrs / Carnaval de Québec</span></div>
+      </div>
+      <div class="plaque" data-cat="installation">
+        <div class="thumb"><img src="assets/img/portfolio/installation-2.jpg" data-i18n-alt="p6_title" alt="Chasse au trésor TD"></div>
+        <div class="plate"><h4 data-i18n="p6_title">Chasse au trésor TD</h4><p data-i18n="p6_desc">Bornes de validation animées pour un parcours-jeu grandeur nature.</p><span class="client" data-i18n="p6_client">Fêtes de la Nouvelle-France</span></div>
+      </div>
+      <div class="plaque" data-cat="augmentee">
+        <div class="thumb"><img src="assets/img/portfolio/product-3.jpg" data-i18n-alt="p7_title" alt="Visites virtuelles"></div>
+        <div class="plate"><h4 data-i18n="p7_title">Visites virtuelles</h4><p data-i18n="p7_desc">Application de réalité virtuelle pour visualiser des vidéos 360° immersives.</p><span class="client" data-i18n="p7_client">AtlasVR</span></div>
+      </div>
+      <div class="plaque" data-cat="installation">
+        <div class="thumb"><img src="assets/img/portfolio/installation-3-1.jpg" data-i18n-alt="p8_title" alt="Fresque des saisons"></div>
+        <div class="plate"><h4 data-i18n="p8_title">Fresque des saisons</h4><p data-i18n="p8_desc">Projection 360° mettant en scène le cycle des saisons dans « Le Québec autrement dit ».</p><span class="client" data-i18n="p8_client">Musée de la civilisation</span></div>
+      </div>
+      <div class="plaque" data-cat="interactivite">
+        <div class="thumb"><img src="assets/img/portfolio/product-4.jpg" data-i18n-alt="p9_title" alt="Explosion de jouets"></div>
+        <div class="plate"><h4 data-i18n="p9_title">Explosion de jouets</h4><p data-i18n="p9_desc">Jeu de détection de mouvement où les joueurs attrapent des cadeaux qui s'envolent.</p><span class="client" data-i18n="p9_client">Village du Père-Noël</span></div>
+      </div>
+      <div class="plaque" data-cat="interactivite">
+        <div class="thumb"><img src="assets/img/portfolio/installation-5-1.jpg" data-i18n-alt="p10_title" alt="Mini-jumbotron LNH"></div>
+        <div class="plate"><h4 data-i18n="p10_title">Mini-jumbotron LNH</h4><p data-i18n="p10_desc">Jumbotron WiFi affichant en direct le pointage de votre équipe préférée.</p><span class="client" data-i18n="p10_client">Les fans du CH</span></div>
+      </div>
+      <div class="plaque" data-cat="installation">
+        <div class="thumb"><img src="assets/img/portfolio/installation-6-1.jpg" data-i18n-alt="p11_title" alt="Le défilé inversé"></div>
+        <div class="plate"><h4 data-i18n="p11_title">Le défilé inversé</h4><p data-i18n="p11_desc">Détection de mouvement interprétée dans le style d'artistes québécois.</p><span class="client" data-i18n="p11_client">Matièrs / Fête nationale du Québec</span></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <!-- Main JS File -->
-  <script src="assets/js/main.js"></script>
+<section class="section" id="about">
+  <div class="wrap about-grid">
+    <div>
+      <div class="about-photo"><img src="assets/img/profile-img.jpg" alt="Simon St-Hilaire"></div>
+      <p class="founded" data-i18n-html="founded_label">Fondé par <a href="https://www.linkedin.com/in/simonst-hilaire/">Simon St-Hilaire</a></p>
+    </div>
+    <div class="about-body">
+      <h2 data-i18n="about_h2">À propos de Polaki</h2>
+      <p data-i18n="about_p1">Je m'appelle Simon. Je conçois et je construis des installations interactives, des expériences en réalité augmentée et des objets connectés pour des institutions qui veulent que leurs visiteurs vivent quelque chose, pas juste qu'ils lisent un panneau.</p>
+      <p data-i18n="about_p2">Ce qui distingue mon travail, c'est que je passe autant de temps à imaginer l'expérience qu'à la construire. Un capteur mal placé ou une interaction confuse peut ruiner la meilleure idée — je pense donc le geste du visiteur, l'électronique qui le capte et le logiciel qui y répond comme un seul problème, pas trois contrats séparés.</p>
+      <p data-i18n="about_p3">J'ai livré des projets pour le Musée de la civilisation, le CHU de Québec et le Carnaval de Québec, entre autres. Selon l'ampleur du projet, je travaille seul ou avec un réseau de collaborateurs de confiance — mais c'est toujours moi qui reste responsable du résultat, du premier croquis jusqu'à l'installation qui fonctionne, sur le terrain, devant public.</p>
+
+      <div class="skills">
+        <div class="skill">
+          <div class="row"><span data-i18n="skill1_label">RV / RA / RM</span><span>99%</span></div>
+          <div class="track"><div class="fill" style="width:99%"></div></div>
+        </div>
+        <div class="skill">
+          <div class="row"><span data-i18n="skill2_label">Moteurs de jeu (Unity / Unreal / Godot / Panda3D)</span><span>99%</span></div>
+          <div class="track"><div class="fill" style="width:99%"></div></div>
+        </div>
+        <div class="skill">
+          <div class="row"><span data-i18n="skill3_label">Électronique et objets connectés</span><span>99%</span></div>
+          <div class="track"><div class="fill" style="width:99%"></div></div>
+        </div>
+        <div class="skill">
+          <div class="row"><span data-i18n="skill4_label">Vulgarisation et compréhension des besoins</span><span>100%</span></div>
+          <div class="track"><div class="fill" style="width:100%"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt" id="temoignages">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 data-i18n="testimonials_h2">Témoignages</h2>
+    </div>
+
+    <div class="testimonial-carousel" id="tcarousel">
+      <div class="testimonial-viewport">
+        <div class="testimonial-track" id="ttrack">
+          <div class="tcard">
+            <p class="quote" data-i18n="t1_quote">Simon est un visionnaire qui capte instantanément la valeur ajoutée d'une idée et mobilise des moyens accessibles pour la concrétiser. Un allié incontournable pour tout créateur!</p>
+            <div class="who">
+              <img src="assets/img/testimonials/testimonials-2.jpg" alt="Martin Thibodeau">
+              <div><div class="name">Martin Thibodeau</div><div class="role" data-i18n="t1_role">CEO @ Spherios</div></div>
+            </div>
+          </div>
+          <div class="tcard">
+            <p class="quote" data-i18n="t2_quote">C'est toujours un plaisir de collaborer avec Simon dans le cadre de nos projets au Musée! Créatif, ultra débrouillard et toujours en mode solution, Simon est le genre de collaborateur qui transforme les défis en opportunités. Toujours à l'écoute de nos besoins et de ceux de nos visiteurs, il propose des solutions originales et robustes, et les concrétise avec rigueur et efficacité. Collaborer avec Simon, c'est non seulement efficace, mais franchement agréable. Une vraie force tranquille… avec une twist de génie-patenteux!</p>
+            <div class="who">
+              <img src="assets/img/testimonials/testimonials-anonymous1.png" alt="Isa Mailloux">
+              <div><div class="name">Isa Mailloux</div><div class="role" data-i18n="t2_role">Chargée de projets numériques et technologiques @ MCQ</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="t-controls">
+        <button class="t-arrow" id="tprev" data-i18n-aria="arrow_prev" aria-label="Témoignage précédent">‹</button>
+        <div class="t-dots" id="tdots"></div>
+        <button class="t-arrow" id="tnext" data-i18n-aria="arrow_next" aria-label="Témoignage suivant">›</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="contact">
+  <div class="wrap">
+    <div class="contact-box">
+      <div>
+        <h2 data-i18n="contact_h2">Un projet en tête?</h2>
+        <p data-i18n="contact_p">Écrivez-moi sur LinkedIn — je réponds vite, peu importe le stade où en est votre projet.</p>
+      </div>
+      <a class="btn btn-amber" href="https://linkedin.com/company/polaki-interactif/" data-i18n="contact_cta">Écrire sur LinkedIn</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span class="mono">© Polaki Interactif</span>
+    <div class="foot-links">
+      <a href="https://www.facebook.com/profile.php?id=61570462811182">Facebook</a>
+      <a href="https://www.linkedin.com/in/simonst-hilaire/">LinkedIn</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.filter').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.filter').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      const f=btn.dataset.f;
+      document.querySelectorAll('.plaque').forEach(p=>{
+        p.style.display=(f==='tous'||p.dataset.cat===f)?'':'none';
+      });
+    });
+  });
+  document.querySelectorAll('#navlinks a').forEach(a=>{
+    a.addEventListener('click',()=>document.getElementById('navlinks').classList.remove('open'));
+  });
+
+  (function(){
+    const track=document.getElementById('ttrack');
+    const slides=track.children;
+    const dotsWrap=document.getElementById('tdots');
+    const carousel=document.getElementById('tcarousel');
+    let i=0, timer;
+
+    for(let n=0;n<slides.length;n++){
+      const d=document.createElement('button');
+      d.className='t-dot'+(n===0?' active':'');
+      d.setAttribute('aria-label','Aller au témoignage '+(n+1));
+      d.addEventListener('click',()=>go(n));
+      dotsWrap.appendChild(d);
+    }
+    const dots=dotsWrap.children;
+
+    function go(n){
+      i=(n+slides.length)%slides.length;
+      track.style.transform='translateX(-'+(i*100)+'%)';
+      for(let k=0;k<dots.length;k++) dots[k].classList.toggle('active',k===i);
+      restart();
+    }
+    function restart(){
+      clearInterval(timer);
+      timer=setInterval(()=>go(i+1),6000);
+    }
+    document.getElementById('tnext').addEventListener('click',()=>go(i+1));
+    document.getElementById('tprev').addEventListener('click',()=>go(i-1));
+    carousel.addEventListener('mouseenter',()=>clearInterval(timer));
+    carousel.addEventListener('mouseleave',restart);
+
+    restart();
+  })();
+
+  /* ---------- BILINGUAL FR / EN ---------- */
+  const I18N = {
+    fr: {
+      doc_title: "Polaki Interactif — Expériences interactives, de l'idée au déploiement",
+      nav_services: "Ce dont vous avez besoin", nav_portfolio: "Portfolio", nav_about: "À propos",
+      nav_testimonials: "Témoignages", nav_contact: "Contact",
+      hero_eyebrow: "Basé à Québec, QC",
+      hero_h1: "Des expériences qu'on active, qu'on touche, dont on se souvient.",
+      hero_lede: "Installations interactives, réalité augmentée et objets connectés, conçus et développés pour des institutions, musées et événements.",
+      hero_cta1: "Trouvez votre point de départ", hero_cta2: "Voir les réalisations",
+      panel_s1_label: "Nous avons une idée", panel_s1_tag: "cadrage",
+      panel_s2_label: "Il faut la concevoir", panel_s2_tag: "design d'expérience",
+      panel_s3_label: "Il faut la bâtir", panel_s3_tag: "développement",
+      panel_s4_label: "Il faut l'ancrer au réel", panel_s4_tag: "intégration physique",
+      services_h2: "Où en êtes-vous?", services_p: "Quatre points de départ, selon où en est votre projet. Trouvez le vôtre.",
+      s1_h3: "« Nous avons une idée, mais on ne sait pas par où commencer. »",
+      s1_p: "Avant d'investir dans une techno ou un partenaire, on en parle. Je vous aide à poser les bonnes questions, cadrer le projet et éviter les mauvais choix — avant que le budget parte dans la mauvaise direction.",
+      s1_cta: "Appelez-moi",
+      s2_h3: "« Nous avons besoin d'aide pour concevoir notre interactif. »",
+      s2_p: "C'est ma plus grande force : imaginer l'expérience elle-même — comment les gens vont interagir, ce qu'ils vont ressentir, ce qui va les surprendre — avant même de penser à la technologie qui va la porter.",
+      s2_cta: "Concevons votre expérience",
+      s3_h3: "« Nous avons le concept, il nous manque le développement. »",
+      s3_p: "Vous avez déjà le design, le plan, la vision créative. Je prends en charge le développement et l'intégration : C++, C#, Python, embarqué — sans sur-ingénierie, sans dépendances inutiles.",
+      s3_cta: "Parlons développement",
+      s4_h3: "« Notre expérience existe déjà, on veut y ajouter du physique. »",
+      s4_p: "Capteurs, microcontrôleurs, projections, détection de mouvement — je connecte votre expérience immersive au monde physique, de façon invisible et robuste.",
+      s4_cta: "Ajoutons de l'interactivité physique",
+      secondary_lead: "Besoin d'autre chose?", pill1: "Formation sur mesure", pill2: "Consultation ponctuelle", pill3: "Prototype rapide",
+      portfolio_h2: "Quelques réalisations",
+      portfolio_p: "Des projets livrés au Musée de la civilisation, au CHU de Québec, au Carnaval de Québec et ailleurs.",
+      filter_tous: "Tous", filter_augmentee: "Expériences augmentées", filter_interactivite: "Interactivité", filter_installation: "Installations",
+      p1_title: "D.E.S.A.", p1_desc: "Dispositif d'expérience sonore augmentée pour l'exposition « Sur parole. Le son du rap québ. »", p1_client: "Musée de la civilisation",
+      p2_title: "Le monde d'Équoo", p2_desc: "Expérience de réalité augmentée visant à diminuer le stress des enfants avant une visite au bloc opératoire.", p2_client: "CHU de Québec / Fondation du CHU de Québec",
+      p3_title: "Mur à dessin", p3_desc: "Les enfants dessinent avec de la lumière sur les murs du grenier de l'exposition « Ma maison ».", p3_client: "Musée de la civilisation",
+      p4_title: "Photomaton (morphing)", p4_desc: "Prenez la pose, recevez votre portrait de famille métamorphosé en personnages de « Ma maison ».", p4_client: "Musée de la civilisation",
+      p5_title: "Zone Pixel", p5_desc: "Zone interactive du Palais de Bonhomme.", p5_client: "Matièrs / Carnaval de Québec",
+      p6_title: "Chasse au trésor TD", p6_desc: "Bornes de validation animées pour un parcours-jeu grandeur nature.", p6_client: "Fêtes de la Nouvelle-France",
+      p7_title: "Visites virtuelles", p7_desc: "Application de réalité virtuelle pour visualiser des vidéos 360° immersives.", p7_client: "AtlasVR",
+      p8_title: "Fresque des saisons", p8_desc: "Projection 360° mettant en scène le cycle des saisons dans « Le Québec autrement dit ».", p8_client: "Musée de la civilisation",
+      p9_title: "Explosion de jouets", p9_desc: "Jeu de détection de mouvement où les joueurs attrapent des cadeaux qui s'envolent.", p9_client: "Village du Père-Noël",
+      p10_title: "Mini-jumbotron LNH", p10_desc: "Jumbotron WiFi affichant en direct le pointage de votre équipe préférée.", p10_client: "Les fans du CH",
+      p11_title: "Le défilé inversé", p11_desc: "Détection de mouvement interprétée dans le style d'artistes québécois.", p11_client: "Matièrs / Fête nationale du Québec",
+      about_h2: "À propos de Polaki",
+      about_p1: "Je m'appelle Simon. Je conçois et je construis des installations interactives, des expériences en réalité augmentée et des objets connectés pour des institutions qui veulent que leurs visiteurs vivent quelque chose, pas juste qu'ils lisent un panneau.",
+      about_p2: "Ce qui distingue mon travail, c'est que je passe autant de temps à imaginer l'expérience qu'à la construire. Un capteur mal placé ou une interaction confuse peut ruiner la meilleure idée — je pense donc le geste du visiteur, l'électronique qui le capte et le logiciel qui y répond comme un seul problème, pas trois contrats séparés.",
+      about_p3: "J'ai livré des projets pour le Musée de la civilisation, le CHU de Québec et le Carnaval de Québec, entre autres. Selon l'ampleur du projet, je travaille seul ou avec un réseau de collaborateurs de confiance — mais c'est toujours moi qui reste responsable du résultat, du premier croquis jusqu'à l'installation qui fonctionne, sur le terrain, devant public.",
+      founded_label: 'Fondé par <a href="https://www.linkedin.com/in/simonst-hilaire/">Simon St-Hilaire</a>',
+      skill1_label: "RV / RA / RM", skill2_label: "Moteurs de jeu (Unity / Unreal / Godot / Panda3D)",
+      skill3_label: "Électronique et objets connectés", skill4_label: "Vulgarisation et compréhension des besoins",
+      testimonials_h2: "Témoignages",
+      t1_quote: "Simon est un visionnaire qui capte instantanément la valeur ajoutée d'une idée et mobilise des moyens accessibles pour la concrétiser. Un allié incontournable pour tout créateur!",
+      t1_role: "CEO @ Spherios",
+      t2_quote: "C'est toujours un plaisir de collaborer avec Simon dans le cadre de nos projets au Musée! Créatif, ultra débrouillard et toujours en mode solution, Simon est le genre de collaborateur qui transforme les défis en opportunités. Toujours à l'écoute de nos besoins et de ceux de nos visiteurs, il propose des solutions originales et robustes, et les concrétise avec rigueur et efficacité. Collaborer avec Simon, c'est non seulement efficace, mais franchement agréable. Une vraie force tranquille… avec une twist de génie-patenteux!",
+      t2_role: "Chargée de projets numériques et technologiques @ MCQ",
+      contact_h2: "Un projet en tête?",
+      contact_p: "Écrivez-moi sur LinkedIn — je réponds vite, peu importe le stade où en est votre projet.",
+      contact_cta: "Écrire sur LinkedIn",
+      arrow_prev: "Témoignage précédent", arrow_next: "Témoignage suivant"
+    },
+    en: {
+      doc_title: "Polaki Interactif — Interactive experiences, from idea to deployment",
+      nav_services: "What you need", nav_portfolio: "Portfolio", nav_about: "About",
+      nav_testimonials: "Testimonials", nav_contact: "Contact",
+      hero_eyebrow: "Based in Québec City",
+      hero_h1: "Experiences people switch on, reach for, and remember.",
+      hero_lede: "Interactive installations, augmented reality and connected devices, designed and built for institutions, museums and events.",
+      hero_cta1: "Find your starting point", hero_cta2: "See the work",
+      panel_s1_label: "We have an idea", panel_s1_tag: "scoping",
+      panel_s2_label: "It needs designing", panel_s2_tag: "experience design",
+      panel_s3_label: "It needs building", panel_s3_tag: "development",
+      panel_s4_label: "It needs to reach the real world", panel_s4_tag: "physical integration",
+      services_h2: "Where are you at?", services_p: "Four starting points, depending on where your project stands. Find yours.",
+      s1_h3: "\u201CWe have an idea, but we don't know where to start.\u201D",
+      s1_p: "Before you invest in a technology or a partner, let's talk. I help you ask the right questions, frame the project and avoid costly missteps — before the budget heads the wrong way.",
+      s1_cta: "Call me",
+      s2_h3: "\u201CWe need help designing our interactive experience.\u201D",
+      s2_p: "This is where I add the most value: imagining the experience itself — how people will interact with it, what they'll feel, what will surprise them — before even thinking about the technology behind it.",
+      s2_cta: "Let's design your experience",
+      s3_h3: "\u201CWe have the concept, we're missing the development.\u201D",
+      s3_p: "You already have the design, the plan, the creative vision. I take care of development and integration: C++, C#, Python, embedded — no over-engineering, no unnecessary dependencies.",
+      s3_cta: "Let's talk development",
+      s4_h3: "\u201COur experience already exists, we want to add physical interactivity.\u201D",
+      s4_p: "Sensors, microcontrollers, projections, motion detection — I connect your immersive experience to the physical world, invisibly and reliably.",
+      s4_cta: "Let's add physical interactivity",
+      secondary_lead: "Need something else?", pill1: "Custom training", pill2: "One-off consulting", pill3: "Rapid prototyping",
+      portfolio_h2: "Selected work",
+      portfolio_p: "Projects delivered for the Musée de la civilisation, CHU de Québec, Carnaval de Québec and others.",
+      filter_tous: "All", filter_augmentee: "Augmented experiences", filter_interactivite: "Interactivity", filter_installation: "Installations",
+      p1_title: "D.E.S.A.", p1_desc: "Augmented sound experience device built for the exhibition \u201CSur parole. Le son du rap québ.\u201D", p1_client: "Musée de la civilisation",
+      p2_title: "Équoo's World", p2_desc: "Augmented reality experience designed to ease children's stress before a visit to the operating room.", p2_client: "CHU de Québec / Fondation du CHU de Québec",
+      p3_title: "Drawing Wall", p3_desc: "Children draw with light on the attic walls of the \u201CMa maison\u201D exhibition.", p3_client: "Musée de la civilisation",
+      p4_title: "Photo Booth (Morphing)", p4_desc: "Strike a pose and get your family portrait morphed into characters from \u201CMa maison.\u201D", p4_client: "Musée de la civilisation",
+      p5_title: "Zone Pixel", p5_desc: "Interactive zone at the Bonhomme Palace.", p5_client: "Matièrs / Québec Winter Carnival",
+      p6_title: "TD Treasure Hunt", p6_desc: "Animated validation kiosks for a life-size scavenger hunt.", p6_client: "Fêtes de la Nouvelle-France",
+      p7_title: "Virtual Tours", p7_desc: "Virtual reality app for viewing immersive 360° videos.", p7_client: "AtlasVR",
+      p8_title: "Seasons Fresco", p8_desc: "360° projection depicting the cycle of seasons in \u201CLe Québec autrement dit.\u201D", p8_client: "Musée de la civilisation",
+      p9_title: "Toy Explosion", p9_desc: "Motion-detection game where players catch gifts flying off the workshop shelves.", p9_client: "Village du Père-Noël",
+      p10_title: "Mini NHL Jumbotron", p10_desc: "WiFi jumbotron displaying your favourite NHL team's score live.", p10_client: "Les fans du CH",
+      p11_title: "The Reverse Parade", p11_desc: "Motion detection reinterpreted in the style of Québec artists.", p11_client: "Matièrs / Fête nationale du Québec",
+      about_h2: "About Polaki",
+      about_p1: "My name is Simon. I design and build interactive installations, augmented reality experiences and connected devices for institutions who want their visitors to experience something, not just read a plaque.",
+      about_p2: "What sets my work apart is that I spend as much time imagining the experience as building it. A misplaced sensor or a confusing interaction can ruin the best idea — so I treat the visitor's gesture, the electronics that sense it, and the software that responds to it as one problem, not three separate contracts.",
+      about_p3: "I've delivered projects for the Musée de la civilisation, CHU de Québec and Carnaval de Québec, among others. Depending on the project's scale, I work alone or with a trusted network of collaborators — but I'm always the one accountable for the result, from the first sketch to the installation working on-site, in front of the public.",
+      founded_label: 'Founded by <a href="https://www.linkedin.com/in/simonst-hilaire/">Simon St-Hilaire</a>',
+      skill1_label: "VR / AR / MR", skill2_label: "Game engines (Unity / Unreal / Godot / Panda3D)",
+      skill3_label: "Electronics & connected devices", skill4_label: "Understanding needs & making them clear",
+      testimonials_h2: "Testimonials",
+      t1_quote: "Simon is a visionary who instantly grasps the added value of an idea and mobilizes accessible means to make it happen. An essential ally for any creator!",
+      t1_role: "CEO @ Spherios",
+      t2_quote: "It's always a pleasure to collaborate with Simon on our Museum projects! Creative, incredibly resourceful and always solution-oriented, Simon is the kind of collaborator who turns challenges into opportunities. Always attentive to our needs and those of our visitors, he proposes original, robust solutions and delivers them with rigour and efficiency. Working with Simon isn't just effective — it's genuinely enjoyable. A real quiet force… with a twist of tinkering genius!",
+      t2_role: "Digital & Technology Project Manager @ MCQ",
+      contact_h2: "Have a project in mind?",
+      contact_p: "Message me on LinkedIn — I reply quickly, whatever stage your project is at.",
+      contact_cta: "Message me on LinkedIn",
+      arrow_prev: "Previous testimonial", arrow_next: "Next testimonial"
+    }
+  };
+
+  let currentLang = 'fr';
+  function applyLang(lang){
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    const dict = I18N[lang];
+    document.querySelectorAll('[data-i18n]').forEach(el=>{
+      const key = el.getAttribute('data-i18n');
+      if(dict[key] !== undefined) el.textContent = dict[key];
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach(el=>{
+      const key = el.getAttribute('data-i18n-html');
+      if(dict[key] !== undefined) el.innerHTML = dict[key];
+    });
+    document.querySelectorAll('[data-i18n-alt]').forEach(el=>{
+      const key = el.getAttribute('data-i18n-alt');
+      if(dict[key] !== undefined) el.alt = dict[key];
+    });
+    document.querySelectorAll('[data-i18n-aria]').forEach(el=>{
+      const key = el.getAttribute('data-i18n-aria');
+      if(dict[key] !== undefined) el.setAttribute('aria-label', dict[key]);
+    });
+    document.title = dict.doc_title;
+    document.getElementById('langToggle').textContent = lang === 'fr' ? 'EN' : 'FR';
+  }
+  document.getElementById('langToggle').addEventListener('click', ()=>{
+    applyLang(currentLang === 'fr' ? 'en' : 'fr');
+  });
+</script>
 
 </body>
-
 </html>
